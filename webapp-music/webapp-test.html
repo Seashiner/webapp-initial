@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    .wrap{
+      width:16rem;
+      height:1px;
+      background-color: pink;
+      margin-top:16rem;
+    }
+  </style>
+</head>
+<body>
+  <div class = "wrap"></div>
+
+  <script>
+    window.onload = function(){
+      //rem适配
+      // (function(){
+      //   var styleNode = document.createElement("style")
+      //   document.head.appendChild(styleNode)
+      //   var w = document.documentElement.clientWidth/16;
+      //   styleNode.innerHTML = "html{font-size:"+ w +"px!important}";
+      // })()
+
+      //viewport适配
+      // (function(){
+      //   var targetW = 650;
+      //   var meta = document.querySelector("meta[name = 'viewport']");
+      //   var scale = document.documentElement.clientWidth / targetW;
+      //   meta.content = "initial-scale="+ scale +",minimum-scale="+ scale +",maximum-scale="+ scale +",user-scalable=no";
+      // })()
+
+      //1 物理像素问题
+      (function(){
+        var dpr = window.devicePixelRatio || 1;
+        var styleNode = document.createElement("style");
+        document.head.appendChild(styleNode);
+        var w = document.documentElement.clientWidth/16*dpr;
+        styleNode.innerHTML = "html{font-size:"+ w +"px!important}";
+        var scale = 1/dpr;
+        var meta = document.querySelector("meta[name = 'viewport']");
+        meta.content = "width=device-width,initial-scale="+ scale +",minimum-scale="+ scale +",maximum-scale="+ scale +",user-scalable=no";
+      })()
+
+
+
+        
+
+
+    }
+  </script>
+</body>
+</html>

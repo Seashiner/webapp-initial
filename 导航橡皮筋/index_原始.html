@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    body,html,.wrap{
+      width:100%;
+      height:100%;
+      overflow: hidden;
+    }
+    .nav{
+      margin-top:20px;
+      width:100%;
+      overflow: hidden;
+      background-color: pink;
+    }
+    .list{
+      float:left;
+      padding:10px 5px;
+      white-space:nowrap;
+      font-size: 0;
+      /* position: relative;
+      z-index: 10; */
+    }
+    .list li{
+      display: inline-block;
+      font-size: 18px;
+      margin:0 8px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class = 'nav'>
+      <ul class='list'>
+        <li>首页</li>
+        <li>热门应用</li>
+        <li>App</li>
+        <li>商城</li>
+        <li>问答</li>
+        <li>课堂</li>
+        <li>活动</li>
+        <li>红领巾</li>
+        <li>美梦</li>
+        <li>年少</li>
+        <li>问答</li>
+        <li>课堂</li>
+        <li>活动</li>
+        <li>红领巾</li>
+        <li>美梦</li>
+        <li>年少</li>
+        <li>问答</li>
+        <li>课堂</li>
+        <li>活动</li>
+        <li>红领巾</li>
+        <li>美梦</li>
+        <li>年少</li>
+        <li>问答</li>
+        <li>课堂</li>
+        <li>活动</li>
+        <li>红领巾</li>
+        <li>美梦</li>
+        <li>年少</li>
+        <li>问答</li>
+        <li>课堂</li>
+        <li>活动</li>
+        <li>红领巾</li>
+        <li>美梦</li>
+        <li>年少</li>
+        <li>咨询</li>
+        <li>发现</li>
+        <li>个人博客</li>
+        <li>广告区</li>
+      </ul>
+    </div>
+  </ul>
+</body>
+<script>
+  window.onload=function(){
+    //滑动区域
+    var nav = document.querySelector('.nav')
+    //滑块
+    var list = document.querySelector('.nav .list')
+    transform.css(list,'translateZ',0)
+    var minX = nav.clientWidth - list.offsetWidth
+    var touchX = 0
+    var touchE = 0
+    var touchDis = 0
+    var eleX = 0
+    var eleE = 0
+    var speed = 0
+    var timeX = 0
+    var timeE = 0 
+    var timeDis
+
+    nav.addEventListener('touchstart',function(e){
+      e = e || event
+      var touchC = e.changedTouches[0]
+      touchX = touchC.clientX
+      timeX = new Date().getTime()
+      eleX = transform.css(list,'translateX')
+
+      list.style.transition = ''
+    })
+
+    nav.addEventListener('touchmove',function(e){
+      e = e || event
+      var touchC = e.changedTouches[0]
+      touchE = touchC.clientX
+      touchDis = touchE - touchX
+      eleE = eleX + touchDis
+
+      timeE= new Date().getTime()
+      timeDis = timeE - timeX
+
+
+      //橡皮筋效果
+      if(eleE  >0){
+        var scale = document.documentElement.clientWidth /( (document.documentElement.clientWidth + touchDis)*2)
+        eleE = eleX + touchDis*scale
+      }else if(eleE < minX){
+        var overX = minX - eleE
+        var scale = document.documentElement.clientWidth /( (document.documentElement.clientWidth + overX)*2)
+        eleE = eleX + touchDis*scale
+      }
+
+      transform.css(list,'translateX',eleE)
+    })
+
+    nav.addEventListener('touchend',function(e){
+
+      speed = touchDis / timeDis
+      eleE = eleX + touchDis
+      transform.css(list,'translateX',eleE)
+
+      if(Math.abs(speed)>.5){
+        eleE = eleE +speed*400
+        transform.css(list,'translateX',eleE)
+
+        var bsr = "";
+        if(eleE  >0){
+          transform.css(list,'translateX',0)
+          bsr = "cubic-bezier(.06,1.85,.83,1.75)";
+        }else if(eleE < minX){
+          bsr = "cubic-bezier(.06,1.85,.83,1.75)";
+          transform.css(list,'translateX',minX)
+        }
+        list.style.transition = `.5s ${bsr} transform`
+
+      }else{
+
+        if(eleE  >0){
+          transform.css(list,'translateX',0)
+        }else if(eleE < minX){
+          transform.css(list,'translateX',minX)
+        }
+        list.style.transition = `.5s transform`
+      }
+      
+    
+
+    })
+
+  }
+</script>
+<script src="./js/transform.js"></script>
+</html>

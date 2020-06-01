@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    html,body{
+      height:100%;
+      overflow: hidden;
+    }
+    .wrap{
+      height:100%;
+      overflow: hidden;
+      
+    }
+    a,img{
+      display: block;
+    }
+    .carousel-wrap{
+      height:10rem;
+      position:relative;
+    }
+    .carousel-wrap > .list {
+      list-style: none;
+      width:500%;
+      overflow: hidden;
+      height:10rem;
+      position:absolute;
+      left:0;
+      top:0;
+    }
+    .carousel-wrap > .list > li {
+      float:left;
+      overflow: hidden;
+    }
+    .carousel-wrap > .points-wrap{
+      position:absolute;
+      bottom:0;
+      width:100%;
+      text-align: center;
+      z-index: 1;
+    }
+    .carousel-wrap > .points-wrap > span{
+      width:.5rem;
+      height:.5rem;
+      display:inline-block;
+      background-color: #fff;
+      border-radius: 50%;
+      margin: 0 .2rem;
+    }
+    .carousel-wrap > .points-wrap > span.active{
+      background-color: pink;
+    }
+
+  </style>
+</head>
+<body>
+  <div class = "wrap">
+    <div class = "carousel-wrap">
+      <!-- <ul class = "list">
+        <li>
+          <a href = "javascript:;">
+            <img src = "1.jpg">
+          </a>
+        </li>
+        <li>
+          <a href = "javascript:;">
+            <img src = "2.jpg">
+          </a>
+        </li>
+        <li>
+          <a href = "javascript:;">
+            <img src = "3.jpg">
+          </a>
+        </li>
+        <li>
+          <a href = "javascript:;">
+            <img src = "4.jpg">
+          </a>
+        </li>
+        <li>
+          <a href = "javascript:;">
+            <img src = "5.jpg">
+          </a>
+        </li>
+      </ul> -->
+      <div class = "points-wrap"></div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = function(){
+      //全面禁止默认行为
+      document.addEventListener("touchstart",function(e){
+        e = e || event;
+        e.preventDefault();
+      },{ passive: false });
+
+      //rem适配
+      (function(){
+        var styleNode = document.createElement("style");
+        document.head.appendChild(styleNode);
+        var w = document.documentElement.clientWidth/16;
+        styleNode.innerHTML = "html{font-size:"+ w +"px!important}";
+      })()
+
+      //无缝滑屏--函数
+      var arr = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg'];
+      carousel(arr);
+
+      function carousel(arr){
+        var carouselWrap = document.querySelector(".carousel-wrap");
+        
+        if(carouselWrap){
+
+          //布局
+            var ulNode = document.createElement("ul");
+            ulNode.classList.add("list");
+            carouselWrap.appendChild(ulNode);
+
+            for(var i = 0 ; i < arr.length ; i++){
+
+              ulNode.innerHTML += '<li><a href = "javascript:;"><img src = "'+ arr[i] +'"></a></li>';
+              var liNodes = document.querySelectorAll('.carousel-wrap > .list > li');
+              var imgNodes = document.querySelectorAll('.carousel-wrap > .list > li > a > img');
+              liNodes[i].style.width = 1/arr.length*100 + "%";
+              imgNodes[i].style.width = 100 + "%";
+
+            }
+             
+                    //小圆点
+            var pointsWrap = document.querySelector(".points-wrap");
+            
+            if(pointsWrap){
+              for(var i = 0; i < arr.length; i++){
+                if(i == 0){
+                  pointsWrap.innerHTML += '<span class = "active"></span';
+                }else{
+                  pointsWrap.innerHTML += '<span></span>';
+                }
+              }
+              var pointsSpan = document.querySelectorAll(".points-wrap > span");
+            }
+
+
+          // 滑屏
+          var fingerStartX = 0;
+          var elementX = 0;
+          var fingerDisX;
+          var translateX = 0;
+          carouselWrap.addEventListener("touchstart",function(e){
+            e = e || event;
+            ulNode.style.transition = "none"
+            fingerStartX = e.changedTouches[0].clientX;
+            elementX = translateX;
+            // elementX = ulNode.offsetLeft;
+          })
+          carouselWrap.addEventListener("touchmove",function(e){
+            e = e || event;
+            var fingerNowX = e.changedTouches[0].clientX;
+            fingerDisX = fingerNowX - fingerStartX;
+            translateX = elementX + fingerDisX;
+            ulNode.style.transform = "translateX("+ left +"px)";
+            // ulNode.style.left = elementX + fingerDisX + 'px';
+          })
+          carouselWrap.addEventListener("touchend",function(e){
+            e = e || event;
+            var index = translateX / document.documentElement.clientWidth
+            // var index = ulNode.offsetLeft / document.documentElement.clientWidth
+           
+           //四舍五入
+            // index = Math.round(index)
+            // 向下取整
+            if(fingerDisX > 0){
+              index = Math.ceil(index)
+            }else if (fingerDisX < 0){
+              index = Math.floor(index)
+            }
+           
+            if(index > 0){
+              index = 0;
+            }else if(index < 1-arr.length){
+              index = 1-arr.length;
+            }
+            
+            //小圆点动态
+            for(var i = 0; i < pointsSpan.length ; i++){
+              pointsSpan[i].classList.remove('active')
+            }
+            pointsSpan[-index].classList.add('active');
+
+
+
+            ulNode.style.transition = ".5s transform";
+            // ulNode.style.transition = ".5s left";
+            translateX = index * document.documentElement.clientWidth;
+            ulNode.style.transform = "translateX("+ translateX +"px)";
+            // ulNode.style.left = index * document.documentElement.clientWidth + 'px';
+
+
+          })
+        }
+      }
+      
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+    }
+    #test{
+      width:200px;
+      height:200px;
+      background-color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div id = "test"></div>
+  <script>
+    window.onload = function(){
+      var test = document.querySelector("#test");
+      css(test,"translateX",100);
+      css(test,"translateX",200);
+      css(test,"scale",2);
+      css(test,"scale");
+
+      function css(node,type,val){
+        if(typeof node === "object" && typeof node["transform"] === "undefined"){
+          node["transform"] = {}
+        }
+
+        if(arguments.length>=3){
+          var text = "";
+          node["transform"][type] = val;
+
+          for(item in node["transform"]){
+            if(node["transform"].hasOwnProperty(item)){
+              switch (item){
+                case "translateX":
+                case "translateY":
+                  text += item + "(" + node["transform"][item] + "px)";
+                  break;
+                case "scale":
+                  text += item + "(" + node["transform"][item] + ")";
+                  break;
+                case "rotate":
+                  text += item + "(" + node["transform"][item] + "deg)";
+                  break;
+              }
+            }
+          }
+          node.style.transform = node.style.webkitTransform = text;
+
+        }else if(arguments.length == 2){
+          val = node["transform"][type];
+          if(typeof val == "undefined"){
+            switch(type){
+              case "translateX":
+              case "translateY":
+              case "rotate":
+              val = 0;
+              break;
+              case "scale":
+              val = 1;
+              break;
+            }
+          }
+          return val;
+        }
+      }
+
+
+      
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+// reset
+html,body,ul,li,h1,h2,h3,h4,h5,h6,span,div,p,a,form,input{
+  margin:0;
+  padding:0;
+  font-family: Helvetica;
+}
+html,body{
+  height:100%;
+  overflow: hidden;
+}
+ul{
+  list-style: none;
+}
+a{
+  display:block;
+  text-decoration:none;
+}
+a,input,button{
+  outline:none;
+  border:none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-appearance: none;
+}
+img{
+  display:block;
+}
+/* ----------------------- */
+@rem : 650/16rem;
+@import "./1-px.less";
+
+#wrap{
+  position: relative;
+  height:100%;
+  overflow: auto;
+  background:#eee;
+  .header{
+    position:absolute;
+    width:100%;
+    background-color: #000;
+    height:180/@rem;
+    .header-top{
+      height:72/@rem;
+      padding:18/@rem 35/@rem 0/@rem 35/@rem ;
+      .logo{
+        float:left;
+        img {
+          width:112/@rem;
+        }
+      }
+      .menuBtn{
+        float:left;
+        width:33/@rem;
+        height:24/@rem;
+        overflow:hidden;
+        margin-top:12/@rem;
+        margin-left:16/@rem;
+        background:url(../img/menu.png) no-repeat;
+        background-size: 33/@rem 48/@rem;
+        &.active{
+          background-position: 0 -24/@rem;
+        }
+      }
+      .btns{
+        float:right;
+        margin-top:8/@rem;
+        a{
+          float:left;
+          width:70/@rem;
+          height:40/@rem;
+          line-height:40/@rem;
+          background: #690;
+          color:#ccc;
+          margin-right:15/@rem;
+          font-size:24/@rem;
+          text-align: center;
+          border-radius: 10/@rem;
+          &.search{
+            color:#fff;
+          }
+        }
+      }
+    }
+    .header-bottom{
+      height:90/@rem;
+      form{
+        padding:0/@rem 35/@rem 0/@rem 35/@rem ;
+        input[type = 'text']{
+          float:left;
+          box-sizing:border-box;
+          height:60/@rem;
+          width:460/@rem;
+          background:#999;
+          padding:5/@rem 10/@rem;
+          border:1px solid #5a5a5a;
+          color:#333;
+          border-radius: 8/@rem;
+          &::-webkit-input-placeholder{
+            color:#333;
+          }
+          &:focus{
+            background: #fff;
+          }
+        }
+        input[type = 'submit']{
+          float:right;
+          width:100/@rem;
+          height:60/@rem;
+          background:#414040;
+          border-radius: 8/@rem;
+          color:#fff;
+        }
+      }
+    }
+    .mask{
+      .1-px(top,#6a6a6a);
+      width:100%;
+      position: absolute;
+      top:90/@rem;
+      left:0;
+      background: rgba(0,0,0,.8);
+      padding:10/@rem 0;
+      display: none;
+      z-index: 2;
+      & > li{
+        width:22.5%;
+        float:left;
+        height:80/@rem;
+        line-height:80/@rem;
+        font-size:26/@rem;
+        text-align: center;
+        & > a{
+          color:#fff;
+        }
+      }
+    }
+  }
+
+  .content{
+    position: absolute;
+    top:180/@rem;
+    left:0;
+    right:0;
+    bottom:0;
+    background:pink;
+    // 以上重点：用position把content撑开
+    .nav{
+      .1-px(bottom);
+      width:100%;
+      height:80/@rem;
+      box-sizing:border-box;
+      background:#eee;
+      ul{
+        float:left;
+        height:80/@rem;
+        font-size:0;
+        white-space: nowrap;
+        li{
+          padding:0 20/@rem;
+          display: inline-block;
+          a{
+            font-size:30/@rem;
+            color:#020202;
+            height:80/@rem;
+            line-height:80/@rem;
+          }
+        }
+      }
+    }
+  }
+}
+

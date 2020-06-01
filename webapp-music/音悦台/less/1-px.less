@@ -1,0 +1,51 @@
+.1-px(top,@color:black){
+  position : relative;
+  &::before{
+    position : absolute;
+    top:0;
+    content:"";
+    display: block;
+    width:100%;
+    height:1px;
+    background: @color;
+    @media only screen and (device-pixel-ratio:2){
+      transform: scaleY(.5);
+    }
+    @media only screen and (device-pixel-ratio:3){
+      transform: scaleY(.5);
+    }
+    @media only screen and (-webkit-device-pixel-ratio:2){
+      transform: scaleY(.5);
+    }
+    @media only screen and (-webkit-device-pixel-ratio:3){
+      transform: scaleY(.5);
+    }
+    
+  }
+}
+
+.1-px(bottom,@color:black){
+  position : relative;
+  &::before{
+    position : absolute;
+    bottom:0;
+    content:"";
+    display: block;
+    width:100%;
+    height:1px;
+    background: @color;
+    @media only screen and (device-pixel-ratio:2){
+      transform: scaleY(.5);
+    }
+    @media only screen and (device-pixel-ratio:3){
+      transform: scaleY(.5);
+    }
+    @media only screen and (-webkit-device-pixel-ratio:2){
+      transform: scaleY(.5);
+    }
+    @media only screen and (-webkit-device-pixel-ratio:3){
+      transform: scaleY(.5);
+    }
+    
+  }
+}
